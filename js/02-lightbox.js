@@ -1,19 +1,21 @@
 import { galleryItems } from './gallery-items.js';
-// console.log(galleryItems);
 
-const galleryNode = document.querySelector('.gallery');
+const galleryElem = document.querySelector('.gallery');
 
-galleryNode.innerHTML = galleryItems.map(createGalleryImageMarkup).join('');
+galleryElem.innerHTML = createGalleryMarkup(galleryItems);
 
-function createGalleryImageMarkup({ preview, original, description }) {
-  const markup = `
-      <a class="gallery__item" href="${original}">
-        <img class="gallery__image" src="${preview}" alt="${description}" />
-      </a>`;
-  return markup;
-}
-
-var lightbox = new SimpleLightbox('.gallery .gallery__item', {
+const lightbox = new SimpleLightbox('.gallery__item', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+
+function createGalleryMarkup(galleryItems) {
+  return galleryItems
+    .map(({ preview, original, description }) => {
+      return `
+      <a class="gallery__item" href="${original}">
+        <img class="gallery__image" src="${preview}" alt="${description}" />
+      </a>`;
+    })
+    .join('');
+}
